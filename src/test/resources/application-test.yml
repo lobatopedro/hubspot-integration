@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: test
+
+hubspot:
+  client-id: "8182b2e5-b5fa-4488-b6da-9ef0bef34aee"
+  client-secret: "fb925061-bbfb-41da-b3c6-914b6d6bbaa9"
+  access-token: "your-access-token"
+  base-uri: "https://api.hubapi.com"
+  token-uri: "http://localhost:1080/oauth/v1/token"  # Adicione esta linha

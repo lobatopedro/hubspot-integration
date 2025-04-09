@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          hubspot:
+            client-id: "8182b2e5-b5fa-4488-b6da-9ef0bef34aee"
+            client-secret: "fb925061-bbfb-41da-b3c6-914b6d6bbaa9"
+            scope: "crm.objects.contacts.write crm.objects.contacts.read"
+            authorization-grant-type: "authorization_code"
+            redirect-uri: "http://localhost:8080/auth/callback"
+        provider:
+          hubspot:
+            authorization-uri: "https://app.hubspot.com/oauth/authorize"
+            token-uri: "https://api.hubapi.com/oauth/v1/token"
+
+  redis:
+    host: localhost
+    port: 6379
+
+hubspot:
+  webhook:
+    client-secret: "fb925061-bbfb-41da-b3c6-914b6d6bbaa9"
+
+logging:
+  level:
+    org.springframework.web: DEBUG

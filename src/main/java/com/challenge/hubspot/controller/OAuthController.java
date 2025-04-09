@@ -31,7 +31,7 @@ public class OAuthController {
         return oAuthService.exchangeAuthCodeForAccessToken(code)
                 .map(ResponseEntity::ok)
                 .onErrorResume(error -> {
-                    //log.error("Erro ao trocar código por token: {}", error.getMessage());
+                    log.error("Error exchanging code for token: {}", error.getMessage());
                     return Mono.just(ResponseEntity.badRequest().body(null));
                 });
     }

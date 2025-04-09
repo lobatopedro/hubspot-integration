@@ -21,13 +21,13 @@ public class WebhookController {
     public ResponseEntity<String> handleWebhook(@RequestBody String payload,
                                                 @RequestHeader("X-HubSpot-Signature") String signature) {
         if (!webhookService.isValidSignature(payload, signature)) {
-            log.warn("Assinatura inválida! Requisição rejeitada.");
+            log.warn("Invalid signature! Request rejected.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid signature");
         }
 
-        log.info("Webhook recebido com sucesso: {}", payload);
+        log.info("Webhook received successfully: {}", payload);
         webhookService.processWebhook(payload);
-        return ResponseEntity.ok("Webhook processado com sucesso!");
+        return ResponseEntity.ok("Webhook processed successfully!");
     }
 }
 

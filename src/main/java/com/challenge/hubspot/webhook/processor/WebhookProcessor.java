@@ -26,9 +26,10 @@ public class WebhookProcessor {
         if (handler != null) {
             handler.handleEvent(eventData);
         } else {
-            log.warn("Nenhum handler registrado para o evento: {}", eventType);
+            log.warn("No handler registered for event: {}", eventType);
         }
     }
+
 }
 
 

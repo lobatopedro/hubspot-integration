@@ -45,15 +45,15 @@ public class ContactService {
             String phone = (String) eventData.get("phone");
             String company = (String) eventData.get("company");
 
-            if (email == null || firstName == null) {
-                log.warn("Dados insuficientes para criar contato: {}", eventData);
+            if (isNull(email) || isNull(firstName)) {
+                log.warn("Insufficient data to create contact: {}", eventData);
                 return;
             }
 
-            log.info("Criando contato via webhook: {}", eventData);
+            log.info("Creating contact via webhook: {}", eventData);
             createContact(email, firstName, lastName, phone, company).subscribe();
         } catch (Exception e) {
-            log.error("Erro ao processar evento de criação de contato: {}", e.getMessage());
+            log.error("Error processing contact creation event: {}", e.getMessage());
         }
     }
 
@@ -62,17 +62,17 @@ public class ContactService {
                                                                   String accessToken,
                                                                   int retries) {
         if (ex.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS && retries > 0) {
-            log.warn("Rate limit atingido. Tentando novamente...");
+            log.warn("Rate limit reached. Trying again...");log.warn("Rate limit reached. Trying again...");
             return Mono.delay(Duration.ofSeconds(2))
                     .flatMap(ignored -> createWithRetry(contactData, accessToken, retries - 1));
         }
-        log.error("Erro ao criar contato: {}", ex.getResponseBodyAsString());
-        return Mono.just(ResponseEntity.status(ex.getStatusCode()).body("Erro: " + ex.getResponseBodyAsString()));
+        log.error("Error creating contact: {}", ex.getResponseBodyAsString());
+        return Mono.just(ResponseEntity.status(ex.getStatusCode()).body("Error: " + ex.getResponseBodyAsString()));
     }
 
     private Mono<ResponseEntity<String>> createWithRetry(Map<String, Object> contactData, String accessToken, int retries) {
         return hubSpotClient.createContact(contactData, accessToken)
-                .map(response -> ResponseEntity.ok("Contato criado com sucesso! ID: " + response.get("id").asText()))
+                .map(response -> ResponseEntity.ok("Contact created successfully! ID: " + response.get("id").asText()))
                 .onErrorResume(WebClientResponseException.class, ex -> handleWebClientException(ex, contactData, accessToken, retries));
     }
 

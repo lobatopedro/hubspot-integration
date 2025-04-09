@@ -39,7 +39,7 @@ public class WebhookService {
             byte[] calculatedHash = mac.doFinal(payload.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(calculatedHash).equals(signature);
         } catch (Exception e) {
-            log.error("Erro ao validar assinatura: {}", e.getMessage());
+            log.error("Error validating signature: {}", e.getMessage());
             return false;
         }
     }
@@ -51,13 +51,14 @@ public class WebhookService {
                 String eventType = event.get("eventType").asText();
                 Map<String, Object> eventData = objectMapper.convertValue(event, new TypeReference<>() {});
 
-                log.info("Processando evento: {}", eventType);
+                log.info("Processing event: {}", eventType);
                 webhookProcessor.processEvent(eventType, eventData);
             }
         } catch (Exception e) {
-            log.error("Erro ao processar webhook: {}", e.getMessage());
+            log.error("Error processing webhook: {}", e.getMessage());
         }
     }
+
 }
 
 

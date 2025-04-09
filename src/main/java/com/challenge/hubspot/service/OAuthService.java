@@ -11,6 +11,8 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.time.Instant;
 
+import static java.util.Objects.nonNull;
+
 @Service
 @Slf4j
 public class OAuthService {
@@ -47,7 +49,7 @@ public class OAuthService {
     private String refreshAccessToken() {
         String refreshToken = tokenService.getRefreshToken();
         if (refreshToken == null) {
-            throw new IllegalStateException("Nenhum refresh token disponível. Reautenticação necessária.");
+            throw new IllegalStateException("No refresh token available. Reauthentication required.");
         }
 
         Mono<OAuthTokenResponse> responseMono = webClient.post()
@@ -61,12 +63,12 @@ public class OAuthService {
                 .bodyToMono(OAuthTokenResponse.class);
 
         OAuthTokenResponse response = responseMono.block();
-        if (response != null) {
+        if (nonNull(response)) {
             tokenService.saveAccessToken(response.getAccessToken(), Duration.ofSeconds(response.getExpiresIn()));
             tokenService.saveRefreshToken(response.getRefreshToken());
             return response.getAccessToken();
         } else {
-            throw new IllegalStateException("Não foi possível obter um novo access token");
+            throw new IllegalStateException("Could not obtain a new access token");
         }
     }
 
@@ -81,7 +83,7 @@ public class OAuthService {
                         .build())
                 .retrieve()
                 .bodyToMono(OAuthTokenResponse.class)
-                .doOnError(error -> log.error("Erro ao trocar código por token: {}", error.getMessage()));
+                .doOnError(error -> log.error("Error exchanging code for token: {}", error.getMessage()));
     }
 
 }

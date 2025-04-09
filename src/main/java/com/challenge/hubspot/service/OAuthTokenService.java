@@ -21,7 +21,7 @@ public class OAuthTokenService {
 
     public void saveAccessToken(String accessToken, Duration expiration) {
         redisTemplate.opsForValue().set(TOKEN_KEY, accessToken, expiration);
-        log.info("Access token salvo no Redis com validade de {} segundos", expiration.getSeconds());
+        log.info("Access token saved in Redis with expiration of {} seconds", expiration.getSeconds());
     }
 
     public String getAccessToken() {
@@ -38,7 +38,7 @@ public class OAuthTokenService {
 
     public void saveRefreshToken(String refreshToken) {
         redisTemplate.opsForValue().set(REFRESH_TOKEN_KEY, refreshToken);
-        log.info("Refresh token salvo no Redis.");
+        log.info("Refresh token saved in Redis.");
     }
 
     public String getRefreshToken() {
@@ -48,6 +48,7 @@ public class OAuthTokenService {
     public void deleteAccessToken() {
         redisTemplate.delete(TOKEN_KEY);
     }
+
 }
 
 

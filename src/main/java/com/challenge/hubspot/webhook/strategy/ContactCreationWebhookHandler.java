@@ -23,7 +23,7 @@ public class ContactCreationWebhookHandler implements WebhookHandler {
 
     @Override
     public void handleEvent(Map<String, Object> eventData) {
-        log.info("Processando criação de contato via webhook: {}", eventData);
+        log.info("Processing contact creation via webhook: {}", eventData);
         contactService.createContactFromWebhook(eventData);
     }
 }

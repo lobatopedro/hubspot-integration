@@ -26,7 +26,7 @@ public class HubSpotService {
     public Mono<String> createContact(Map<String, Object> contactData) {
         String accessToken = oAuthService.getAccessToken();
         if (isNull(accessToken)) {
-            return Mono.error(new IllegalStateException("Access Token não disponível"));
+            return Mono.error(new IllegalStateException("Access Token not available"));
         }
 
         return webClient.post()
@@ -36,8 +36,8 @@ public class HubSpotService {
                 .bodyValue(contactData)
                 .retrieve()
                 .bodyToMono(String.class)
-                .doOnSuccess(response -> log.info("Contato criado com sucesso"))
-                .doOnError(error -> log.error("Erro ao criar contato: {}", error.getMessage()));
+                .doOnSuccess(response -> log.info("Contact created successfully"))
+                .doOnError(error -> log.error("Error creating contact: {}", error.getMessage()));
     }
 
 }

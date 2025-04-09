@@ -7,8 +7,8 @@ spring:
       client:
         registration:
           hubspot:
-            client-id: "8182b2e5-b5fa-4488-b6da-9ef0bef34aee"
-            client-secret: "fb925061-bbfb-41da-b3c6-914b6d6bbaa9"
+            client-id: "CLIENT_ID"
+            client-secret: "SECRET_ID"
             scope: "crm.objects.contacts.write crm.objects.contacts.read"
             authorization-grant-type: "authorization_code"
             redirect-uri: "http://localhost:8080/auth/callback"
@@ -23,7 +23,7 @@ spring:
 
 hubspot:
   webhook:
-    client-secret: "fb925061-bbfb-41da-b3c6-914b6d6bbaa9"
+    client-secret: "SECRET_ID"
 
 logging:
   level:

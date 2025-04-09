@@ -26,7 +26,7 @@ import static org.mockserver.model.HttpResponse.response;
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestPropertySource(locations = "classpath:application-test.yml") // 🔹 Garante que o arquivo será lido
+@TestPropertySource(locations = "classpath:application-test.yml")
 class OAuthServiceIntegrationTest {
 
 

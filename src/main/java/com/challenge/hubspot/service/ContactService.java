@@ -62,7 +62,7 @@ public class ContactService {
                                                                   String accessToken,
                                                                   int retries) {
         if (ex.getStatusCode() == HttpStatus.TOO_MANY_REQUESTS && retries > 0) {
-            log.warn("Rate limit reached. Trying again...");log.warn("Rate limit reached. Trying again...");
+            log.warn("Rate limit reached. Trying again...");
             return Mono.delay(Duration.ofSeconds(2))
                     .flatMap(ignored -> createWithRetry(contactData, accessToken, retries - 1));
         }

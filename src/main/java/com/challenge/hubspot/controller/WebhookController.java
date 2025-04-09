@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/webhook")
+@RequestMapping("/webhooks")
 @Slf4j
 public class WebhookController {
 

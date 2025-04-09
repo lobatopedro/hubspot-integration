@@ -1,11 +1,13 @@
 package com.challenge.hubspot.service;
 
 import com.challenge.hubspot.HubSpotClient;
+import com.challenge.hubspot.dto.ContactUpdateRequest;
 import com.challenge.hubspot.factory.HubSpotContactFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
@@ -20,10 +22,12 @@ public class ContactService {
 
     private final HubSpotClient hubSpotClient;
     private final OAuthService oAuthService;
+    private final WebClient webClient;
 
-    public ContactService(HubSpotClient hubSpotClient, OAuthService oAuthService) {
+    public ContactService(HubSpotClient hubSpotClient, OAuthService oAuthService, WebClient webClient) {
         this.hubSpotClient = hubSpotClient;
         this.oAuthService = oAuthService;
+        this.webClient = webClient;
     }
 
     public Mono<ResponseEntity<String>> createContact(String email, String firstName, String lastName, String phone, String company) {
@@ -35,6 +39,14 @@ public class ContactService {
 
         Map<String, Object> contactData = HubSpotContactFactory.createFullContact(email, firstName, lastName, phone, company);
         return createWithRetry(contactData, accessToken, 3);
+    }
+
+    public Mono<String> updateContact(String contactId, ContactUpdateRequest request) {
+        return webClient.put()
+                .uri("/contacts/v1/contact/vid/{contactId}/profile", contactId)
+                .bodyValue(request)
+                .retrieve()
+                .bodyToMono(String.class);
     }
 
     public void createContactFromWebhook(Map<String, Object> eventData) {

@@ -1,13 +1,11 @@
 package com.challenge.hubspot.controller;
 
 import com.challenge.hubspot.dto.ContactDTO;
+import com.challenge.hubspot.dto.ContactUpdateRequest;
 import com.challenge.hubspot.service.ContactService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -31,6 +29,12 @@ public class ContactController {
                 contactDTO.getCompany()
         );
     }
+
+    @PutMapping("/{contactId}")
+    public ResponseEntity<Mono<String>> updateContact(@PathVariable String contactId, @RequestBody ContactUpdateRequest request) {
+        return ResponseEntity.ok(contactService.updateContact(contactId, request));
+    }
+
 }
 
 
